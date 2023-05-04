@@ -1,49 +1,71 @@
-import java.nio.file.Files;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
- * Класс для создания файлов базы данных
+ * Класс для создания файлов базы данных и работы с данными
  */
-public class CreateFile {
-    private  Path toys;
-    private Path autoIncrement;
-    public CreateFile(String pathToFile) throws Exception {
-        this.toys = Path.of(pathToFile+"toy.csv");
-        this.autoIncrement = Path.of(pathToFile+"AI.txt");
-        this.createDbFile(this.toys);
-        this.createDbFile(this.autoIncrement);
-        if(Files.size(this.autoIncrement) == 0){
-            this.setAutoIncrement(0);
-        }
+abstract class CreateFile {
+    protected  Path toys;
+    protected Path autoIncrement;
+    protected Path bonusToy;
+    public CreateFile(){
     }
 
-    public Path getToys(){
-        return this.toys;
-    }
+    /**
+     * getToysLink - получение ссылки на файл toy.csv - склад игрушек
+     * @return
+     */
+    abstract Path getToysLink();
 
-    public void setAutoIncrement(int valueAi) throws Exception {
-        Files.writeString(this.autoIncrement, Integer.toString(valueAi));
-    }
+    /**
+     * getBonusToyLink - получение ссылки на файл bonusToy.csv - выигранные игрушки
+     * @return
+     */
+    abstract Path getBonusToyLink();
 
-    public int getAutoIncrement() throws Exception {
-        return Integer.parseInt(Files.readString(this.autoIncrement));
-    }
+    /**
+     * setAutoIncrement - с передаваемы параметром. Увеличивает значение в файле AI.txt на единицу.
+     * @param valueAi
+     * @throws Exception
+     */
+    abstract void setAutoIncrement(int valueAi) throws Exception;
+
+    /**
+     * setAutoIncrement - без параметра, используется в конструкторе при создании файла AI.txt
+     * и устанавливает значение равным единице.
+     * @throws IOException
+     */
+    abstract void setAutoIncrement() throws IOException;
+
+    /**
+     *getAutoIncrement - получение значения для ID из файла AI.txt
+     * @return
+     * @throws Exception
+     */
+    abstract int getAutoIncrement() throws Exception;
 
     /**
      * Метод для создания файлов базы данных по указанному пути
      * @param dbFile
      * @throws Exception
      */
-    private void createDbFile(Path dbFile) throws Exception {
-        if (Files.exists(dbFile) == false) {
-            Files.createFile(dbFile);
-            if (Files.isRegularFile(dbFile) == true) {
-                System.out.println("Файл \"" + dbFile + "\" успешно создан!");
-            }
-            else{
-                System.out.println("Файл \"" + dbFile + "\" НЕ создан!");
-            }
-        }
-    }
+    abstract void createDbFile(Path dbFile) throws Exception;
+
+    /**
+     * addProduct - добавляет игрушку в файл csv в формате: id;name;count;percent
+     * @param pathToFile
+     * @param userData
+     * @throws IOException
+     */
+    abstract void addProduct(Path pathToFile, String[] userData) throws IOException;
+
+    /**
+     * modificateProduct - используется для обновления игрушки(кроме поля id) и удаления.
+     * @param pathToFile
+     * @param tempArray
+     * @throws IOException
+     */
+    abstract void modificateProduct(Path pathToFile, List<String[]> tempArray) throws IOException;
 
 }
