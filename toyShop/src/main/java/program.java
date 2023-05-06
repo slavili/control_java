@@ -88,6 +88,9 @@ public class program {
                     System.out.println("Игрушки с id = "+upd+" не существует.");
                 }
 
+            } else if (cmd.equals("play")) {
+                toyDataBase.playBonusToy(toyDataBase.getAllProduct(toyDataBase.getToysLink()));
+
             } else if (cmd.equals("q")) {
                 System.out.println("Работа с программой завершена!");
                 break;

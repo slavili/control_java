@@ -4,10 +4,14 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class rwDb extends CreateFile{
 
+    private List<String[]> bonusToyTemp;
+
     public rwDb(String pathToFile) throws Exception {
+        this.bonusToyTemp = new ArrayList<>();
         this.toys = Path.of(pathToFile+"toy.csv");
         this.bonusToy = Path.of(pathToFile+"bonusToy.csv");
         this.autoIncrement = Path.of(pathToFile+"AI.txt");
@@ -15,6 +19,7 @@ public class rwDb extends CreateFile{
         this.createDbFile(this.bonusToy);
         this.createDbFile(this.autoIncrement);
         this.setAutoIncrement();
+
     }
     @Override
     protected void createDbFile(Path dbFile) throws Exception {
@@ -88,6 +93,33 @@ public class rwDb extends CreateFile{
         }
 
         Files.writeString(pathToFile, userString, StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
+    /**
+     * playBonusToy - розыгрышь игрушки,
+     * берётся одна игрушка случайным образом выбранная из поступающего массива.
+     * @param userToys
+     */
+    public void playBonusToy(List<String[]> userToys){
+        Random tempR = new Random();
+        Integer tempItem;
+
+        for (int i = 0 , j = userToys.size(); i < j; i++) {
+            if (Integer.parseInt(userToys.get(i)[2]) == 0)
+            {
+                userToys.remove(i);
+            }
+        }
+        if (userToys.size() > 0){
+            tempItem = tempR.nextInt(userToys.size());
+            bonusToyTemp.add(userToys.get(tempItem));
+            System.out.println("Разыгранные игрушки:");
+            for (int i = 0, j = bonusToyTemp.size(); i < j; i++) {
+                System.out.println(String.join(";",bonusToyTemp.get(i)));
+            }
+        }
+        else
+            System.out.println("Отсуствуют игрушки для розыгрыша");
     }
 
 }
