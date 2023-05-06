@@ -100,15 +100,16 @@ public class rwDb extends CreateFile{
      * берётся одна игрушка случайным образом выбранная из поступающего массива.
      * @param userToys
      */
-    public void playBonusToy(List<String[]> userToys){
+    public void playBonusToy(List<String[]> userToys) throws IOException {
         Random tempR = new Random();
         Integer tempItem;
 
-        for (int i = 0 , j = userToys.size(); i < j; i++) {
-            if (Integer.parseInt(userToys.get(i)[2]) == 0)
+        for(int j = 0; userToys.size() > 0 && j < userToys.size();) {
+            if (Integer.parseInt(userToys.get(j)[2]) < 1)
             {
-                userToys.remove(i);
-            }
+                userToys.remove(j);
+                j = 0;
+            } else j++;
         }
         if (userToys.size() > 0){
             tempItem = tempR.nextInt(userToys.size());
@@ -117,9 +118,36 @@ public class rwDb extends CreateFile{
             for (int i = 0, j = bonusToyTemp.size(); i < j; i++) {
                 System.out.println(String.join(";",bonusToyTemp.get(i)));
             }
+            this.getBonusToy(this.getAllProduct(this.toys));
         }
         else
             System.out.println("Отсуствуют игрушки для розыгрыша");
+    }
+
+    private void getBonusToy(List<String[]> allProduct) throws IOException {
+        String[] userString = new String[2];
+
+        for (int i = 0, j = bonusToyTemp.size(); i < j; i++) {
+
+            userString[0] = bonusToyTemp.get(i)[0];
+            userString[1] = bonusToyTemp.get(i)[1];
+
+            addProduct(this.bonusToy, userString);
+            bonusToyTemp.remove(i);
+
+            for (int k = 0, z = allProduct.size(); k < z; k++) {
+                if(allProduct.get(k)[0].equals(userString[0])){
+                    String[] tempItem = allProduct.get(k);
+                    tempItem[2] = Integer.toString(Integer.parseInt(tempItem[2]) - 1);
+                    allProduct.set(k, tempItem);
+                    break;
+                }
+            }
+
+            modificateProduct(this.getToysLink(), allProduct);
+
+        }
+
     }
 
 }
