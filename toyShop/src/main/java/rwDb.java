@@ -85,10 +85,8 @@ public class rwDb extends CreateFile{
         for (int i = 0, j = tempArray.size(); i < j; i++) {
             if (i == 0){
                 userString+=String.join(";",tempArray.get(i));
-//                Files.writeString(pathToFile, String.join(";",tempArray.get(i)), StandardOpenOption.TRUNCATE_EXISTING);
             }else {
                 userString+="\n"+String.join(";",tempArray.get(i));
-//                Files.writeString(pathToFile, "\n"+String.join(";",tempArray.get(i)), StandardOpenOption.APPEND);
             }
         }
 

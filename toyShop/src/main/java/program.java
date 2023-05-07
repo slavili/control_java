@@ -13,7 +13,6 @@ public class program {
                 List<String[]> tempArray = toyDataBase.getAllProduct(toyDataBase.getToysLink());
                 System.out.println("Кол-во разновидностей игрушек на складе: " + tempArray.size());
                 for (String[] userArr: tempArray) {
-                    //System.out.println(Arrays.stream(userArr).collect(Collectors.joining("***")));
                     System.out.println("id: "+userArr[0]+". название: "+userArr[1]+". кол-во на складе: "+userArr[2]+". процент выигрышности: "+userArr[3] + "%");
                 }
             } else if (cmd.equals("insert")){
