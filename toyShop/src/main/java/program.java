@@ -3,7 +3,15 @@ import java.util.Scanner;
 
 public class program {
     public static void main(String[] args) throws Exception {
+
         rwDb toyDataBase = new rwDb("D:\\toys\\");
+        System.out.println("help - показать команды управления");
+        System.out.println("insert - добавить новую игрушку");
+        System.out.println("delete - удалить игрушку");
+        System.out.println("update - обновление игрушки");
+        System.out.println("select - показать список всех игрушек");
+        System.out.println("play - розыгрыш игрушки с одновременной выдачей (в файл)");
+        System.out.println("q - выход");
 
         while(true) {
             Scanner in = new Scanner(System.in);
@@ -90,7 +98,17 @@ public class program {
             } else if (cmd.equals("play")) {
                 toyDataBase.playBonusToy(toyDataBase.getAllProduct(toyDataBase.getToysLink()));
 
-            } else if (cmd.equals("q")) {
+            } else if (cmd.equals("help")) {
+                System.out.println("help - показать команды управления");
+                System.out.println("insert - добавить новую игрушку");
+                System.out.println("delete - удалить игрушку");
+                System.out.println("update - обновление игрушки");
+                System.out.println("select - показать список всех игрушек");
+                System.out.println("play - розыгрыш игрушки с одновременной выдачей (в файл)");
+                System.out.println("q - выход");
+            }
+
+            else if (cmd.equals("q")) {
                 System.out.println("Работа с программой завершена!");
                 break;
             } else {
